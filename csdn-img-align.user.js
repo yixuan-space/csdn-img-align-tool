@@ -1,14 +1,19 @@
 // ==UserScript==
 // @name         CSDN 富文本编辑器图片批量对齐工具
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/yixuan-space
 // @version      1.0.0
-// @description  为 CSDN 编辑器批量添加图片对齐功能
-// @author       YiXuan
+// @license      MIT
+// @description  一键批量设置 CSDN 编辑器中所有图片的对齐方式（左对齐、居中、右对齐），提升编辑效率。
+// @author       yixuan-space
+// @homepageURL  https://github.com/yixuan-space/csdn-img-align-tool
+// @supportURL   https://github.com/yixuan-space/csdn-img-align-tool/issues
+// @run-at       document-end
 // @match        https://mp.csdn.net/mp_blog/creation/editor*
+// @match        https://mp.csdn.net/manage/article/*
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     if (window.__csdn_img_align_btn__) return;
@@ -148,13 +153,13 @@
     var actionsPanel = toolbar.querySelector('.fab-actions');
     var isOpen = false;
 
-    toggleBtn.addEventListener('click', function() {
+    toggleBtn.addEventListener('click', function () {
         isOpen = !isOpen;
         toggleBtn.classList.toggle('active', isOpen);
         actionsPanel.classList.toggle('show', isOpen);
     });
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!toolbar.contains(e.target) && isOpen) {
             isOpen = false;
             toggleBtn.classList.remove('active');
@@ -167,34 +172,34 @@
         t.className = 'img-align-toast';
         t.innerHTML = msg;
         document.body.appendChild(t);
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             t.classList.add('visible');
         });
-        setTimeout(function() {
+        setTimeout(function () {
             t.classList.remove('visible');
-            setTimeout(function() { t.remove(); }, 300);
+            setTimeout(function () { t.remove(); }, 300);
         }, 2200);
     }
 
     var alignLabels = { left: '左对齐', center: '居中', right: '右对齐' };
 
-    toolbar.querySelectorAll('.fab-action').forEach(function(btn) {
-        btn.addEventListener('click', function() {
+    toolbar.querySelectorAll('.fab-action').forEach(function (btn) {
+        btn.addEventListener('click', function () {
             var align = this.getAttribute('data-align');
             var script = document.createElement('script');
-            script.textContent = '(' + function(alignDir, label) {
+            script.textContent = '(' + function (alignDir, label) {
                 try {
                     var editor = CKEDITOR.instances.editor
-                              || CKEDITOR.instances['editor']
-                              || Object.values(CKEDITOR.instances)[0];
+                        || CKEDITOR.instances['editor']
+                        || Object.values(CKEDITOR.instances)[0];
 
                     if (!editor) {
                         var t = document.createElement('div');
                         t.className = 'img-align-toast';
                         t.textContent = '❌ 未检测到编辑器，请确认在文章编辑页';
                         document.body.appendChild(t);
-                        requestAnimationFrame(function() { t.classList.add('visible'); });
-                        setTimeout(function() { t.classList.remove('visible'); setTimeout(function() { t.remove(); }, 300); }, 2200);
+                        requestAnimationFrame(function () { t.classList.add('visible'); });
+                        setTimeout(function () { t.classList.remove('visible'); setTimeout(function () { t.remove(); }, 300); }, 2200);
                         return;
                     }
 
@@ -206,14 +211,14 @@
                         t2.className = 'img-align-toast';
                         t2.textContent = '⚠️ 编辑器中未找到图片';
                         document.body.appendChild(t2);
-                        requestAnimationFrame(function() { t2.classList.add('visible'); });
-                        setTimeout(function() { t2.classList.remove('visible'); setTimeout(function() { t2.remove(); }, 300); }, 2200);
+                        requestAnimationFrame(function () { t2.classList.add('visible'); });
+                        setTimeout(function () { t2.classList.remove('visible'); setTimeout(function () { t2.remove(); }, 300); }, 2200);
                         return;
                     }
 
                     var count = 0;
 
-                    imgs.toArray().forEach(function(img) {
+                    imgs.toArray().forEach(function (img) {
                         if (editor.widgets) {
                             var widget = editor.widgets.getByElement(img);
                             if (widget && widget.setData) {
@@ -221,7 +226,7 @@
                                     widget.setData('align', alignDir);
                                     count++;
                                     return;
-                                } catch(e) {}
+                                } catch (e) { }
                             }
                         }
 
@@ -230,7 +235,7 @@
                         img.removeStyle('margin-right');
                         img.removeStyle('float');
 
-                        if (img.hasClass('cke_left'))  img.removeClass('cke_left');
+                        if (img.hasClass('cke_left')) img.removeClass('cke_left');
                         if (img.hasClass('cke_right')) img.removeClass('cke_right');
                         if (img.hasClass('cke_center')) img.removeClass('cke_center');
 
@@ -257,16 +262,16 @@
                     t3.className = 'img-align-toast';
                     t3.innerHTML = '✅ 已将 ' + count + ' 张图片设为' + label + '<br><span style="font-size:12px;opacity:0.7">点击编辑区空白处可触发重绘</span>';
                     document.body.appendChild(t3);
-                    requestAnimationFrame(function() { t3.classList.add('visible'); });
-                    setTimeout(function() { t3.classList.remove('visible'); setTimeout(function() { t3.remove(); }, 300); }, 2200);
+                    requestAnimationFrame(function () { t3.classList.add('visible'); });
+                    setTimeout(function () { t3.classList.remove('visible'); setTimeout(function () { t3.remove(); }, 300); }, 2200);
 
-                } catch(err) {
+                } catch (err) {
                     var t4 = document.createElement('div');
                     t4.className = 'img-align-toast';
                     t4.textContent = '❌ 执行出错：' + err.message;
                     document.body.appendChild(t4);
-                    requestAnimationFrame(function() { t4.classList.add('visible'); });
-                    setTimeout(function() { t4.classList.remove('visible'); setTimeout(function() { t4.remove(); }, 300); }, 2200);
+                    requestAnimationFrame(function () { t4.classList.add('visible'); });
+                    setTimeout(function () { t4.classList.remove('visible'); setTimeout(function () { t4.remove(); }, 300); }, 2200);
                     console.error('[CSDN Image Align]', err);
                 }
             } + ')(' + JSON.stringify(align) + ',' + JSON.stringify(alignLabels[align]) + ');';
