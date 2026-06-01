@@ -24,9 +24,9 @@
 
 ## 预览
 
-| 悬浮按钮 | 对齐菜单 | 操作效果 |
-|---------|---------|---------|
-| ![悬浮按钮](https://via.placeholder.com/150x150?text=FAB) | ![对齐菜单](https://via.placeholder.com/200x150?text=Menu) | ![操作效果](https://via.placeholder.com/400x300?text=Result) |
+| 悬浮按钮 | 
+|---------|
+| ![悬浮按钮](images/image.png) |
 
 ## 兼容性
 

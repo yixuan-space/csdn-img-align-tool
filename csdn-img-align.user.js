@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         CSDN 富文本编辑器图片批量对齐工具
 // @namespace    https://github.com/yixuan-space
-// @version      1.0.0
+// @version      1.0.1
 // @license      MIT
 // @description  一键批量设置 CSDN 编辑器中所有图片的对齐方式（左对齐、居中、右对齐），提升编辑效率。
 // @author       yixuan-space
 // @homepageURL  https://github.com/yixuan-space/csdn-img-align-tool
 // @supportURL   https://github.com/yixuan-space/csdn-img-align-tool/issues
+// @updateURL    https://raw.githubusercontent.com/yixuan-space/csdn-img-align-tool/main/csdn-img-align-tool.user.js
+// @downloadURL  https://raw.githubusercontent.com/yixuan-space/csdn-img-align-tool/main/csdn-img-align-tool.user.js
 // @run-at       document-end
 // @match        https://mp.csdn.net/mp_blog/creation/editor*
 // @match        https://mp.csdn.net/manage/article/*
